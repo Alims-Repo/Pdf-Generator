@@ -174,28 +174,3 @@ data class QRCodeElement(
         )
     }
 }
-
-/**
- * QR Code error correction levels
- */
-enum class QRErrorCorrectionLevel {
-    /** ~7% error correction */
-    LOW,
-    /** ~15% error correction */
-    MEDIUM,
-    /** ~25% error correction */
-    QUARTILE,
-    /** ~30% error correction */
-    HIGH
-}
-
-/**
- * WiFi security types for QR codes
- */
-enum class WifiSecurityType {
-    WEP,
-    WPA,
-    WPA2,
-    nopass
-}
-
