@@ -154,6 +154,31 @@ class PdfDsl {
     fun checkboxList(items: List<CheckboxItem>) = builder.addCheckboxList(items)
     fun checkboxList(vararg labels: String) = builder.addCheckboxList(*labels)
 
+    // QR Code elements
+    fun qrCode(data: String, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCode(data, size, align)
+    fun qrCodeUrl(url: String, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCodeUrl(url, size, align)
+    fun qrCodeEmail(email: String, subject: String? = null, body: String? = null, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCodeEmail(email, subject, body, size, align)
+    fun qrCodePhone(phone: String, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCodePhone(phone, size, align)
+    fun qrCodeSms(phone: String, message: String? = null, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCodeSms(phone, message, size, align)
+    fun qrCodeWifi(ssid: String, password: String? = null, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCodeWifi(ssid, password, size = size, alignment = align)
+    fun qrCodeVCard(
+        firstName: String,
+        lastName: String? = null,
+        phone: String? = null,
+        email: String? = null,
+        organization: String? = null,
+        size: Float = 150f,
+        align: TextAlign = TextAlign.CENTER
+    ) = builder.addQRCodeVCard(firstName, lastName, phone, email, organization, size = size, alignment = align)
+    fun qrCodeLocation(latitude: Double, longitude: Double, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
+        builder.addQRCodeLocation(latitude, longitude, size, align)
+
     // Table DSL
     fun table(block: TableDsl.() -> Unit) {
         val tableDsl = TableDsl().apply(block)

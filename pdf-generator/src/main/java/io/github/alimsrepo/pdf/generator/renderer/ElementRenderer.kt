@@ -19,6 +19,7 @@ import io.github.alimsrepo.pdf.generator.content.ListElement
 import io.github.alimsrepo.pdf.generator.content.NumberedListChunk
 import io.github.alimsrepo.pdf.generator.content.PageBreakElement
 import io.github.alimsrepo.pdf.generator.content.PdfElement
+import io.github.alimsrepo.pdf.generator.content.QRCodeElement
 import io.github.alimsrepo.pdf.generator.content.SpacerElement
 import io.github.alimsrepo.pdf.generator.content.TableCell
 import io.github.alimsrepo.pdf.generator.content.TableElement
@@ -63,6 +64,7 @@ class ElementRenderer(
             is BoxElement -> renderBox(canvas, element, x, y, availableWidth)
             is CheckboxElement -> renderCheckbox(canvas, element, x, y, availableWidth)
             is CheckboxListElement -> renderCheckboxList(canvas, element, x, y, availableWidth)
+            is QRCodeElement -> renderQRCode(canvas, element, x, y, availableWidth)
             is PageBreakElement -> 0f
         }
     }
@@ -533,6 +535,26 @@ class ElementRenderer(
         return text
             .replace("{page}", pageNumber.toString())
             .replace("{total}", totalPages.toString())
+    }
+
+    private fun renderQRCode(canvas: Canvas, element: QRCodeElement, x: Float, y: Float, availableWidth: Float): Float {
+        val bitmap = element.generateBitmap()
+        val size = element.size
+
+        val qrX = when (element.alignment) {
+            TextAlign.LEFT -> x
+            TextAlign.CENTER -> x + (availableWidth - size) / 2
+            TextAlign.RIGHT -> x + availableWidth - size
+            TextAlign.JUSTIFY -> x
+        }
+
+        val srcRect = Rect(0, 0, bitmap.width, bitmap.height)
+        val dstRect = RectF(qrX, y, qrX + size, y + size)
+
+        canvas.drawBitmap(bitmap, srcRect, dstRect, null)
+        bitmap.recycle()
+
+        return size + element.spacingAfter
     }
 }
 

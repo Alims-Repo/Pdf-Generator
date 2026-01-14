@@ -23,12 +23,15 @@ import io.github.alimsrepo.pdf.generator.content.ImageScaleType
 import io.github.alimsrepo.pdf.generator.content.ListElement
 import io.github.alimsrepo.pdf.generator.content.PageBreakElement
 import io.github.alimsrepo.pdf.generator.content.PdfElement
+import io.github.alimsrepo.pdf.generator.content.QRCodeElement
+import io.github.alimsrepo.pdf.generator.content.QRErrorCorrectionLevel
 import io.github.alimsrepo.pdf.generator.content.SpacerElement
 import io.github.alimsrepo.pdf.generator.content.TableCell
 import io.github.alimsrepo.pdf.generator.content.TableElement
 import io.github.alimsrepo.pdf.generator.content.TableRow
 import io.github.alimsrepo.pdf.generator.content.TextAlign
 import io.github.alimsrepo.pdf.generator.content.TextElement
+import io.github.alimsrepo.pdf.generator.content.WifiSecurityType
 import io.github.alimsrepo.pdf.generator.layout.PageLayoutEngine
 import io.github.alimsrepo.pdf.generator.output.PdfError
 import io.github.alimsrepo.pdf.generator.output.PdfGenerationListener
@@ -618,6 +621,125 @@ class PdfBuilder {
                 textSize = textSize
             )
         )
+        return this
+    }
+
+    // ==================== QR Code ====================
+
+    /**
+     * Add a QR code element
+     */
+    fun addQRCode(
+        data: String,
+        size: Float = 150f,
+        alignment: TextAlign = TextAlign.CENTER,
+        foregroundColor: Int = 0xFF000000.toInt(),
+        backgroundColor: Int = 0xFFFFFFFF.toInt(),
+        errorCorrectionLevel: QRErrorCorrectionLevel = QRErrorCorrectionLevel.MEDIUM
+    ): PdfBuilder {
+        elements.add(
+            QRCodeElement(
+                data = data,
+                size = size,
+                alignment = alignment,
+                foregroundColor = foregroundColor,
+                backgroundColor = backgroundColor,
+                errorCorrectionLevel = errorCorrectionLevel
+            )
+        )
+        return this
+    }
+
+    /**
+     * Add a QR code for a URL
+     */
+    fun addQRCodeUrl(url: String, size: Float = 150f, alignment: TextAlign = TextAlign.CENTER): PdfBuilder {
+        elements.add(QRCodeElement.url(url, size).copy(alignment = alignment))
+        return this
+    }
+
+    /**
+     * Add a QR code for email
+     */
+    fun addQRCodeEmail(
+        email: String,
+        subject: String? = null,
+        body: String? = null,
+        size: Float = 150f,
+        alignment: TextAlign = TextAlign.CENTER
+    ): PdfBuilder {
+        elements.add(QRCodeElement.email(email, subject, body, size).copy(alignment = alignment))
+        return this
+    }
+
+    /**
+     * Add a QR code for phone number
+     */
+    fun addQRCodePhone(phone: String, size: Float = 150f, alignment: TextAlign = TextAlign.CENTER): PdfBuilder {
+        elements.add(QRCodeElement.phone(phone, size).copy(alignment = alignment))
+        return this
+    }
+
+    /**
+     * Add a QR code for SMS
+     */
+    fun addQRCodeSms(
+        phone: String,
+        message: String? = null,
+        size: Float = 150f,
+        alignment: TextAlign = TextAlign.CENTER
+    ): PdfBuilder {
+        elements.add(QRCodeElement.sms(phone, message, size).copy(alignment = alignment))
+        return this
+    }
+
+    /**
+     * Add a QR code for WiFi network
+     */
+    fun addQRCodeWifi(
+        ssid: String,
+        password: String? = null,
+        securityType: WifiSecurityType = WifiSecurityType.WPA,
+        hidden: Boolean = false,
+        size: Float = 150f,
+        alignment: TextAlign = TextAlign.CENTER
+    ): PdfBuilder {
+        elements.add(QRCodeElement.wifi(ssid, password, securityType, hidden, size).copy(alignment = alignment))
+        return this
+    }
+
+    /**
+     * Add a QR code for vCard contact
+     */
+    fun addQRCodeVCard(
+        firstName: String,
+        lastName: String? = null,
+        phone: String? = null,
+        email: String? = null,
+        organization: String? = null,
+        title: String? = null,
+        address: String? = null,
+        website: String? = null,
+        size: Float = 150f,
+        alignment: TextAlign = TextAlign.CENTER
+    ): PdfBuilder {
+        elements.add(
+            QRCodeElement.vCard(firstName, lastName, phone, email, organization, title, address, website, size)
+                .copy(alignment = alignment)
+        )
+        return this
+    }
+
+    /**
+     * Add a QR code for geographic location
+     */
+    fun addQRCodeLocation(
+        latitude: Double,
+        longitude: Double,
+        size: Float = 150f,
+        alignment: TextAlign = TextAlign.CENTER
+    ): PdfBuilder {
+        elements.add(QRCodeElement.location(latitude, longitude, size).copy(alignment = alignment))
         return this
     }
 

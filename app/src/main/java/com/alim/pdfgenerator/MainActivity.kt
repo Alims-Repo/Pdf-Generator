@@ -406,6 +406,70 @@ class MainActivity : ComponentActivity() {
                                 spacer(20f)
 
                                 // ========================================
+                                // PAGE BREAK - NEW PAGE
+                                // ========================================
+                                pageBreak()
+
+                                // ========================================
+                                // PAGE: QR CODES
+                                // ========================================
+                                heading("9. QR Code Generation", size = 20f)
+                                spacer(8f)
+
+                                text("The library supports generating various types of QR codes:")
+                                spacer(12f)
+
+                                subheading("Simple QR Code (URL):")
+                                text("Scan to visit the project repository:", size = 11f)
+                                spacer(4f)
+                                qrCodeUrl("https://github.com/user/pdf-generator", size = 120f)
+                                spacer(16f)
+
+                                subheading("Contact QR Code (vCard):")
+                                text("Scan to add contact:", size = 11f)
+                                spacer(4f)
+                                qrCodeVCard(
+                                    firstName = "John",
+                                    lastName = "Doe",
+                                    phone = "+1234567890",
+                                    email = "john.doe@example.com",
+                                    organization = "ACME Corp",
+                                    size = 120f
+                                )
+                                spacer(16f)
+
+                                subheading("WiFi QR Code:")
+                                text("Scan to connect to WiFi:", size = 11f)
+                                spacer(4f)
+                                qrCodeWifi(
+                                    ssid = "MyNetwork",
+                                    password = "secretpassword123",
+                                    size = 120f
+                                )
+                                spacer(16f)
+
+                                subheading("Other QR Code Types:")
+                                bulletList(
+                                    "qrCode() - Plain text or custom data",
+                                    "qrCodeUrl() - Website URLs",
+                                    "qrCodeEmail() - Email with subject/body",
+                                    "qrCodePhone() - Phone numbers",
+                                    "qrCodeSms() - SMS with message",
+                                    "qrCodeWifi() - WiFi network credentials",
+                                    "qrCodeVCard() - Contact cards",
+                                    "qrCodeLocation() - Geographic coordinates"
+                                )
+                                spacer(8f)
+
+                                infoBox(
+                                    TextElement(
+                                        text = "QR codes support customizable size, alignment, colors, and error correction levels (L, M, Q, H).",
+                                        textSize = 11f
+                                    )
+                                )
+                                spacer(20f)
+
+                                // ========================================
                                 // FOOTER / CLOSING
                                 // ========================================
                                 divider(thickness = 2f)
