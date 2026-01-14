@@ -176,6 +176,7 @@ class PdfDsl {
         size: Float = 150f,
         align: TextAlign = TextAlign.CENTER
     ) = builder.addQRCodeVCard(firstName, lastName, phone, email, organization, size = size, alignment = align)
+
     fun qrCodeLocation(latitude: Double, longitude: Double, size: Float = 150f, align: TextAlign = TextAlign.CENTER) =
         builder.addQRCodeLocation(latitude, longitude, size, align)
 

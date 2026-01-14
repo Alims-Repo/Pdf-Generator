@@ -22,7 +22,7 @@ data class QRCodeElement(
     val size: Float = 150f,
     val alignment: TextAlign = TextAlign.CENTER,
     val foregroundColor: Int = 0xFF000000.toInt(),
-    val backgroundColor: Int = 0xFFFFFFFF.toInt(),
+    val backgroundColor: Int = 0x00000000.toInt(),//0xFFFFFFFF.toInt(),
     val errorCorrectionLevel: QRErrorCorrectionLevel = QRErrorCorrectionLevel.MEDIUM,
     val margin: Int = 1,
     val spacingAfter: Float = 8f
