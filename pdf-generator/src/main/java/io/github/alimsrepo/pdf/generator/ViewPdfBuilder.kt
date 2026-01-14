@@ -237,12 +237,22 @@ class ViewPdfBuilder(private val context: Context) {
                     document.close()
                     PdfResult.ByteArrayResult(baos.toByteArray())
                 }
+
+                is PdfOutput.ToOutputStream -> {
+                    val baos = ByteArrayOutputStream()
+                    document.writeTo(baos)
+                    document.close()
+                    val bytes = baos.toByteArray()
+                    output.outputStream.write(bytes)
+                    output.outputStream.flush()
+                    PdfResult.StreamResult(bytes.size.toLong())
+                }
             }
 
             listener?.onSuccess(result)
 
         } catch (e: Exception) {
-            listener?.onFailure(PdfError("PDF generation failed: ${e.message}", e))
+            listener?.onFailure(PdfError.GenerationError("PDF generation failed: ${e.message}", e))
         }
     }
 

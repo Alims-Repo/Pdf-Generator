@@ -39,6 +39,8 @@ data class TextElement(
 
     companion object {
         fun wrapText(text: String, maxWidth: Float, paint: Paint): List<String> {
+            if (maxWidth <= 0) return listOf(text)
+
             val lines = mutableListOf<String>()
             val paragraphs = text.split("\n")
 
@@ -52,6 +54,26 @@ data class TextElement(
                 var currentLine = StringBuilder()
 
                 for (word in words) {
+                    // Handle words longer than maxWidth by breaking them
+                    if (paint.measureText(word) > maxWidth) {
+                        // First, add the current line if not empty
+                        if (currentLine.isNotEmpty()) {
+                            lines.add(currentLine.toString())
+                            currentLine = StringBuilder()
+                        }
+                        // Break the long word into pieces
+                        var remainingWord = word
+                        while (remainingWord.isNotEmpty()) {
+                            var endIndex = remainingWord.length
+                            while (endIndex > 1 && paint.measureText(remainingWord.substring(0, endIndex)) > maxWidth) {
+                                endIndex--
+                            }
+                            lines.add(remainingWord.substring(0, endIndex))
+                            remainingWord = remainingWord.substring(endIndex)
+                        }
+                        continue
+                    }
+
                     val testLine = if (currentLine.isEmpty()) word else "$currentLine $word"
                     val width = paint.measureText(testLine)
 

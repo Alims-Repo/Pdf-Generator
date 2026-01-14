@@ -2,6 +2,7 @@ package io.github.alimsrepo.pdf.generator.layout
 
 import android.graphics.Paint
 import io.github.alimsrepo.pdf.generator.config.PageConfig
+import io.github.alimsrepo.pdf.generator.content.BoxElement
 import io.github.alimsrepo.pdf.generator.content.ListElement
 import io.github.alimsrepo.pdf.generator.content.NumberedListChunk
 import io.github.alimsrepo.pdf.generator.content.PageBreakElement

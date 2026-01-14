@@ -1,6 +1,7 @@
 package io.github.alimsrepo.pdf.generator.output
 
 import java.io.File
+import java.io.OutputStream
 
 /**
  * Output configuration
@@ -19,6 +20,11 @@ sealed class PdfOutput {
     /**
      * Return as byte array (useful for sharing/uploading)
      */
-    object ToByteArray : PdfOutput()
+    data object ToByteArray : PdfOutput()
+
+    /**
+     * Write to an OutputStream (useful for network streams, ContentResolver, etc.)
+     */
+    data class ToOutputStream(val outputStream: OutputStream) : PdfOutput()
 }
 

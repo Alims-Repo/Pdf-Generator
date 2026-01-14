@@ -8,13 +8,18 @@ import io.github.alimsrepo.pdf.generator.config.CustomPageSize
 import io.github.alimsrepo.pdf.generator.config.PageMargins
 import io.github.alimsrepo.pdf.generator.config.PageOrientation
 import io.github.alimsrepo.pdf.generator.config.PageSize
+import io.github.alimsrepo.pdf.generator.config.PdfMetadata
+import io.github.alimsrepo.pdf.generator.config.Watermark
+import io.github.alimsrepo.pdf.generator.content.CheckboxItem
 import io.github.alimsrepo.pdf.generator.content.PdfElement
 import io.github.alimsrepo.pdf.generator.content.TableCell
 import io.github.alimsrepo.pdf.generator.content.TableRow
 import io.github.alimsrepo.pdf.generator.content.TextAlign
+import io.github.alimsrepo.pdf.generator.content.TextElement
 import io.github.alimsrepo.pdf.generator.output.PdfOutput
 import io.github.alimsrepo.pdf.generator.output.PdfResult
 import java.io.File
+import java.io.OutputStream
 
 /**
  * Kotlin DSL for building PDFs
@@ -126,6 +131,29 @@ class PdfDsl {
 
     fun pageBreak() = builder.addPageBreak()
 
+    // Watermark
+    fun watermark(watermark: Watermark) = builder.setWatermark(watermark)
+    fun textWatermark(text: String, textSize: Float = 48f, textColor: Int = 0x33000000, rotation: Float = -45f) =
+        builder.setTextWatermark(text, textSize, textColor, rotation)
+    fun draftWatermark() = builder.setWatermark(Watermark.draft())
+    fun confidentialWatermark() = builder.setWatermark(Watermark.confidential())
+
+    // Metadata
+    fun metadata(block: PdfMetadata.Builder.() -> Unit) = builder.setMetadata(block)
+
+    // Box elements
+    fun box(elements: List<PdfElement>, padding: Float = 12f, backgroundColor: Int? = null) =
+        builder.addBox(elements, padding, backgroundColor)
+    fun infoBox(vararg elements: PdfElement) = builder.addInfoBox(*elements)
+    fun warningBox(vararg elements: PdfElement) = builder.addWarningBox(*elements)
+    fun errorBox(vararg elements: PdfElement) = builder.addErrorBox(*elements)
+    fun successBox(vararg elements: PdfElement) = builder.addSuccessBox(*elements)
+
+    // Checkbox elements
+    fun checkbox(label: String, isChecked: Boolean = false) = builder.addCheckbox(label, isChecked)
+    fun checkboxList(items: List<CheckboxItem>) = builder.addCheckboxList(items)
+    fun checkboxList(vararg labels: String) = builder.addCheckboxList(*labels)
+
     // Table DSL
     fun table(block: TableDsl.() -> Unit) {
         val tableDsl = TableDsl().apply(block)
@@ -194,6 +222,15 @@ fun PdfBuilder.toByteArray(): Result<ByteArray> {
     }
 }
 
+/**
+ * Extension to write PDF to OutputStream
+ */
+fun PdfBuilder.toOutputStream(outputStream: OutputStream): Result<Long> {
+    return buildSync(PdfOutput.ToOutputStream(outputStream)).map { result ->
+        (result as PdfResult.StreamResult).bytesWritten
+    }
+}
+
 // ==================== View PDF DSL ====================
 
 /**
@@ -210,6 +247,10 @@ class ViewPdfDsl(context: Context) {
     fun customPageSize(size: CustomPageSize) = builder.setCustomPageSize(size)
     fun orientation(orientation: PageOrientation) = builder.setOrientation(orientation)
     fun margins(margins: PageMargins) = builder.setMargins(margins)
+    fun margins(top: Float, bottom: Float, left: Float, right: Float) =
+        builder.setMargins(PageMargins(top, bottom, left, right))
+    fun marginsMm(top: Float, bottom: Float, left: Float, right: Float) =
+        builder.setMargins(PageMargins.fromMm(top, bottom, left, right))
     fun backgroundColor(color: Int) = builder.setBackgroundColor(color)
 
     fun view(view: View) = builder.addView(view)

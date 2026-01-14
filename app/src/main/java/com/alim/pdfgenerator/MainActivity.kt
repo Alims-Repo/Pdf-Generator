@@ -36,6 +36,7 @@ import com.alim.pdfgenerator.ui.theme.PdfGeneratorTheme
 import io.github.alimsrepo.pdf.generator.config.PageMargins
 import io.github.alimsrepo.pdf.generator.config.PageSize
 import io.github.alimsrepo.pdf.generator.content.TextAlign
+import io.github.alimsrepo.pdf.generator.content.TextElement
 import io.github.alimsrepo.pdf.generator.pdf
 import io.github.alimsrepo.pdf.generator.saveToFile
 import io.github.alimsrepo.pdf.generator.viewPdf
@@ -134,6 +135,33 @@ class MainActivity : ComponentActivity() {
                                     "© 2026 Lawyers Diary - Confidential Document",
                                     align = TextAlign.CENTER
                                 )
+
+                                textWatermark("DRAFT")
+                                draftWatermark()
+                                confidentialWatermark()
+
+                                // New metadata
+                                metadata {
+                                    title("Document")
+                                    author("Author")
+                                }
+
+                                box(
+                                    listOf(
+                                        TextElement("This is text 0"),
+                                        TextElement("This is text 1"),
+                                        TextElement("This is text 2"),
+                                        TextElement("This is text 3")
+                                    )
+                                )
+
+                                // New box elements
+                                infoBox(TextElement("This is info Box"))
+                                warningBox(TextElement("This is warning Box"))
+
+                                // New checkbox elements
+                                checkbox("Accept terms", isChecked = true)
+                                checkboxList("Option 1", "Option 2")
 
                             }.saveToFile(pdfFile)
                         }

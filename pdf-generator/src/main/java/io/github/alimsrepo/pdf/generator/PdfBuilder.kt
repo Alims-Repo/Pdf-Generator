@@ -11,6 +11,12 @@ import io.github.alimsrepo.pdf.generator.config.PageHeaderFooter
 import io.github.alimsrepo.pdf.generator.config.PageMargins
 import io.github.alimsrepo.pdf.generator.config.PageOrientation
 import io.github.alimsrepo.pdf.generator.config.PageSize
+import io.github.alimsrepo.pdf.generator.config.PdfMetadata
+import io.github.alimsrepo.pdf.generator.config.Watermark
+import io.github.alimsrepo.pdf.generator.content.BoxElement
+import io.github.alimsrepo.pdf.generator.content.CheckboxElement
+import io.github.alimsrepo.pdf.generator.content.CheckboxItem
+import io.github.alimsrepo.pdf.generator.content.CheckboxListElement
 import io.github.alimsrepo.pdf.generator.content.DividerElement
 import io.github.alimsrepo.pdf.generator.content.ImageElement
 import io.github.alimsrepo.pdf.generator.content.ImageScaleType
@@ -58,6 +64,8 @@ class PdfBuilder {
     private var header: PageHeaderFooter = PageHeaderFooter()
     private var footer: PageHeaderFooter = PageHeaderFooter()
     private var backgroundColor: Int = 0xFFFFFFFF.toInt()
+    private var watermark: Watermark? = null
+    private var metadata: PdfMetadata = PdfMetadata.EMPTY
 
     private val elements = mutableListOf<PdfElement>()
 
@@ -199,6 +207,43 @@ class PdfBuilder {
                 textColor = textColor
             )
         )
+        return this
+    }
+
+    /**
+     * Set a watermark for all pages
+     */
+    fun setWatermark(watermark: Watermark): PdfBuilder {
+        this.watermark = watermark
+        return this
+    }
+
+    /**
+     * Set a text watermark
+     */
+    fun setTextWatermark(
+        text: String,
+        textSize: Float = 48f,
+        textColor: Int = 0x33000000,
+        rotation: Float = -45f
+    ): PdfBuilder {
+        this.watermark = Watermark.text(text, textSize, textColor, rotation)
+        return this
+    }
+
+    /**
+     * Set document metadata
+     */
+    fun setMetadata(metadata: PdfMetadata): PdfBuilder {
+        this.metadata = metadata
+        return this
+    }
+
+    /**
+     * Set document metadata using builder
+     */
+    fun setMetadata(block: PdfMetadata.Builder.() -> Unit): PdfBuilder {
+        this.metadata = PdfMetadata.Builder().apply(block).build()
         return this
     }
 
@@ -465,6 +510,118 @@ class PdfBuilder {
     }
 
     /**
+     * Add a box/container element
+     */
+    fun addBox(
+        elements: List<PdfElement>,
+        padding: Float = 12f,
+        backgroundColor: Int? = null,
+        borderWidth: Float = 1f,
+        borderColor: Int = 0xFF000000.toInt(),
+        borderRadius: Float = 0f,
+        spacingAfter: Float = 8f
+    ): PdfBuilder {
+        this.elements.add(
+            BoxElement(
+                elements = elements,
+                padding = padding,
+                backgroundColor = backgroundColor,
+                borderWidth = borderWidth,
+                borderColor = borderColor,
+                borderRadius = borderRadius,
+                spacingAfter = spacingAfter
+            )
+        )
+        return this
+    }
+
+    /**
+     * Add an info box
+     */
+    fun addInfoBox(vararg elements: PdfElement): PdfBuilder {
+        this.elements.add(BoxElement.info(elements.toList()))
+        return this
+    }
+
+    /**
+     * Add a warning box
+     */
+    fun addWarningBox(vararg elements: PdfElement): PdfBuilder {
+        this.elements.add(BoxElement.warning(elements.toList()))
+        return this
+    }
+
+    /**
+     * Add an error box
+     */
+    fun addErrorBox(vararg elements: PdfElement): PdfBuilder {
+        this.elements.add(BoxElement.error(elements.toList()))
+        return this
+    }
+
+    /**
+     * Add a success box
+     */
+    fun addSuccessBox(vararg elements: PdfElement): PdfBuilder {
+        this.elements.add(BoxElement.success(elements.toList()))
+        return this
+    }
+
+    /**
+     * Add a single checkbox
+     */
+    fun addCheckbox(
+        label: String,
+        isChecked: Boolean = false,
+        textSize: Float = 12f,
+        textColor: Int = 0xFF000000.toInt()
+    ): PdfBuilder {
+        elements.add(
+            CheckboxElement(
+                label = label,
+                isChecked = isChecked,
+                textSize = textSize,
+                textColor = textColor
+            )
+        )
+        return this
+    }
+
+    /**
+     * Add a checkbox list
+     */
+    fun addCheckboxList(
+        items: List<CheckboxItem>,
+        textSize: Float = 12f,
+        textColor: Int = 0xFF000000.toInt()
+    ): PdfBuilder {
+        elements.add(
+            CheckboxListElement(
+                items = items,
+                textSize = textSize,
+                textColor = textColor
+            )
+        )
+        return this
+    }
+
+    /**
+     * Add a checkbox list from strings (all unchecked)
+     */
+    fun addCheckboxList(
+        vararg labels: String,
+        textSize: Float = 12f
+    ): PdfBuilder {
+        elements.add(
+            CheckboxListElement(
+                items = labels.map { CheckboxItem(it, false) },
+                textSize = textSize
+            )
+        )
+        return this
+    }
+
+    /**
      * Add a custom element
      */
     fun addElement(element: PdfElement): PdfBuilder {
@@ -501,6 +658,7 @@ class PdfBuilder {
      * Build the PDF and save to specified output
      */
     fun build(output: PdfOutput, listener: PdfGenerationListener? = null) {
+        var document: PdfDocument? = null
         try {
             listener?.onStart()
 
@@ -513,7 +671,7 @@ class PdfBuilder {
             val totalPages = pages.size
 
             // Create PDF document
-            val document = PdfDocument()
+            document = PdfDocument()
 
             for (pageContent in pages) {
                 listener?.onProgress(pageContent.pageNumber, totalPages)
@@ -536,6 +694,9 @@ class PdfBuilder {
                     }
                     canvas.drawRect(0f, 0f, pageConfig.pageWidth, pageConfig.pageHeight, bgPaint)
                 }
+
+                // Draw watermark (behind content)
+                this@PdfBuilder.watermark?.let { wm -> renderer.renderWatermark(canvas, wm) }
 
                 // Draw header
                 if (header.enabled && header.content != null) {
@@ -568,6 +729,7 @@ class PdfBuilder {
                         document.writeTo(fos)
                     }
                     document.close()
+                    document = null
                     PdfResult.FileResult(output.file)
                 }
 
@@ -579,6 +741,7 @@ class PdfBuilder {
                         document.writeTo(fos)
                     }
                     document.close()
+                    document = null
                     PdfResult.FileResult(file)
                 }
 
@@ -586,14 +749,30 @@ class PdfBuilder {
                     val baos = ByteArrayOutputStream()
                     document.writeTo(baos)
                     document.close()
+                    document = null
                     PdfResult.ByteArrayResult(baos.toByteArray())
+                }
+
+                is PdfOutput.ToOutputStream -> {
+                    val baos = ByteArrayOutputStream()
+                    document.writeTo(baos)
+                    document.close()
+                    document = null
+                    val bytes = baos.toByteArray()
+                    output.outputStream.write(bytes)
+                    output.outputStream.flush()
+                    PdfResult.StreamResult(bytes.size.toLong())
                 }
             }
 
             listener?.onSuccess(result)
 
+        } catch (e: java.io.IOException) {
+            document?.close()
+            listener?.onFailure(PdfError.IoError("Failed to write PDF: ${e.message}", e))
         } catch (e: Exception) {
-            listener?.onFailure(PdfError("PDF generation failed: ${e.message}", e))
+            document?.close()
+            listener?.onFailure(PdfError.GenerationError("PDF generation failed: ${e.message}", e))
         }
     }
 
