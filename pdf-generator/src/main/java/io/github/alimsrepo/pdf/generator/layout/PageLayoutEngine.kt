@@ -59,9 +59,25 @@ class PageLayoutEngine(
                 // Table doesn't fit - split it across pages
                 val tableChunks = splitTable(element, contentWidth, remainingHeight, contentHeight)
 
-                for ((index, chunk) in tableChunks.withIndex()) {
-                    if (index > 0) {
-                        // Start new page for subsequent chunks
+                // Process each chunk
+                var isFirstValidChunk = true
+                for (chunk in tableChunks) {
+                    // Check if this chunk has actual data rows
+                    val hasDataRows = chunk.rows.any { !it.isHeader }
+
+                    if (!hasDataRows) {
+                        // Empty chunk = signal to move to next page
+                        if (currentPageElements.isNotEmpty()) {
+                            pages.add(PageContent(currentPageNumber, currentPageElements))
+                            currentPageElements = mutableListOf()
+                            currentPageNumber++
+                            currentY = pageConfig.contentStartY
+                        }
+                        continue
+                    }
+
+                    // For valid chunks after the first, start a new page
+                    if (!isFirstValidChunk) {
                         pages.add(PageContent(currentPageNumber, currentPageElements))
                         currentPageElements = mutableListOf()
                         currentPageNumber++
@@ -73,12 +89,18 @@ class PageLayoutEngine(
                         ElementPosition(chunk, startX, currentY, contentWidth)
                     )
                     currentY += chunkHeight
+                    isFirstValidChunk = false
                 }
             } else if (element is ListElement && elementHeight > remainingHeight) {
                 // List doesn't fit - split it
                 val listChunks = splitList(element, contentWidth, remainingHeight, contentHeight)
 
                 for ((index, chunk) in listChunks.withIndex()) {
+                    // Skip empty chunks
+                    if (chunk.measureHeight(contentWidth) <= 0) {
+                        continue
+                    }
+
                     if (index > 0) {
                         pages.add(PageContent(currentPageNumber, currentPageElements))
                         currentPageElements = mutableListOf()
@@ -123,6 +145,11 @@ class PageLayoutEngine(
 
     /**
      * Split a table into chunks that fit within page boundaries
+     * @param table The table to split
+     * @param availableWidth Width available for the table
+     * @param firstPageHeight Height available on the current page
+     * @param subsequentPageHeight Height available on subsequent pages (full content height)
+     * @return List of table chunks, with a possible empty first chunk indicating need for page break
      */
     private fun splitTable(
         table: TableElement,
@@ -137,58 +164,66 @@ class PageLayoutEngine(
         val headerRow = table.rows.firstOrNull { it.isHeader }
         val headerHeight = headerRow?.let { measureRowHeight(it, colWidths) } ?: 0f
 
+        // Get data rows only (exclude header)
+        val dataRows = table.rows.filter { !it.isHeader }
+
+        if (dataRows.isEmpty()) {
+            return listOf(table) // Nothing to split
+        }
+
         var currentChunkRows = mutableListOf<TableRow>()
         var currentChunkHeight = 0f
         var availableHeight = firstPageHeight
-        var isFirstChunk = true
+        var isFirstPage = true
 
-        // Add header to first chunk if exists
+        // Try to add header to first chunk
         if (headerRow != null) {
             currentChunkRows.add(headerRow)
             currentChunkHeight = headerHeight
         }
 
-        // Get data rows only (exclude header)
-        val dataRows = table.rows.filter { !it.isHeader }
-
         for (row in dataRows) {
             val rowHeight = measureRowHeight(row, colWidths)
 
-            // Check if row fits in current chunk
+            // Check if this row fits in current chunk
             if (currentChunkHeight + rowHeight <= availableHeight) {
+                // Row fits - add it
                 currentChunkRows.add(row)
                 currentChunkHeight += rowHeight
             } else {
-                // Current row doesn't fit
-                // Save current chunk if it has data rows (not just header)
+                // Row doesn't fit - need to start a new chunk
+
+                // First, save current chunk if it has data rows
                 val hasDataRows = currentChunkRows.any { !it.isHeader }
                 if (hasDataRows) {
                     chunks.add(table.copy(
                         rows = currentChunkRows.toList(),
                         spacingAfter = 0f
                     ))
-
-                    // Start new chunk
-                    currentChunkRows = mutableListOf()
-                    currentChunkHeight = 0f
-                    isFirstChunk = false
+                } else if (isFirstPage) {
+                    // First page couldn't fit any data rows - add empty placeholder
+                    // This signals to the layout engine that we need a page break
+                    chunks.add(table.copy(
+                        rows = emptyList(),
+                        spacingAfter = 0f
+                    ))
                 }
 
-                // For new chunks, use subsequent page height
-                if (!isFirstChunk || !hasDataRows) {
-                    availableHeight = subsequentPageHeight
-                }
+                // Start new chunk on subsequent page
+                isFirstPage = false
+                availableHeight = subsequentPageHeight
+                currentChunkRows = mutableListOf()
+                currentChunkHeight = 0f
 
                 // Add header to new chunk if exists
-                if (headerRow != null && !currentChunkRows.any { it.isHeader }) {
+                if (headerRow != null) {
                     currentChunkRows.add(headerRow)
                     currentChunkHeight = headerHeight
                 }
 
-                // Add current row to chunk
+                // Add the current row
                 currentChunkRows.add(row)
                 currentChunkHeight += rowHeight
-                isFirstChunk = false
             }
         }
 
@@ -201,6 +236,11 @@ class PageLayoutEngine(
                     spacingAfter = table.spacingAfter
                 ))
             }
+        }
+
+        // Safety: if no valid chunks were created, return original table
+        if (chunks.isEmpty() || chunks.all { it.rows.isEmpty() || it.rows.none { r -> !r.isHeader } }) {
+            return listOf(table)
         }
 
         return chunks
