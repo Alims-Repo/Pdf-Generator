@@ -65,8 +65,6 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf<Long?>(null)
                     }
 
-                    val context = LocalContext.current
-
                     val pdfFile = File(cacheDir, "feature_showcase.pdf")
 
                     LaunchedEffect(Unit) {
