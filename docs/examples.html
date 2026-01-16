@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF Generator Examples - Real-world examples and use cases">
+    <title>Examples - PDF Generator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📄</span>
+                <span class="logo-text">PDF Generator</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="features.html">Features</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="examples.html" class="active">Examples</a>
+                <a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank" class="github-link">
+                    <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>💡 Examples</h1>
+            <p>Real-world examples and use cases for PDF Generator</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="page-content">
+        <div class="page-with-sidebar">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <h3>Examples</h3>
+                    <ul>
+                        <li><a href="#invoice">Invoice</a></li>
+                        <li><a href="#report">Report</a></li>
+                        <li><a href="#receipt">Receipt</a></li>
+                        <li><a href="#certificate">Certificate</a></li>
+                        <li><a href="#checklist">Checklist Form</a></li>
+                        <li><a href="#contact-card">Contact Card</a></li>
+                        <li><a href="#multi-page">Multi-Page Document</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main>
+                <div class="content-section" id="invoice">
+                    <h2>🧾 Invoice</h2>
+                    <p>Create a professional invoice with company details, line items, and payment QR code.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Invoice Example</h3>
+                            <p>Complete invoice with header, items table, totals, and payment QR code</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateInvoice(context: Context, invoice: Invoice): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "invoice_${invoice.number}.pdf")
+
+    return pdf {
+        pageSize(PageSize.A4)
+        margins(PageMargins.NORMAL)
+
+        // Header
+        header(
+            left = "INVOICE",
+            right = invoice.date,
+            showPageNumber = false
+        )
+
+        footer(
+            center = "Thank you for your business!",
+            showPageNumber = true
+        )
+
+        // Company Logo & Info
+        title("ACME Corporation", align = TextAlign.CENTER)
+        text("123 Business Street, City, Country", size = 10f, align = TextAlign.CENTER)
+        text("Phone: +1 234 567 890 | Email: billing@acme.com", size = 10f, align = TextAlign.CENTER)
+
+        spacer(30f)
+        divider()
+        spacer(20f)
+
+        // Invoice Details
+        text("Invoice #: ${invoice.number}", size = 14f, typeface = Typeface.DEFAULT_BOLD)
+        text("Date: ${invoice.date}")
+        text("Due Date: ${invoice.dueDate}")
+
+        spacer(20f)
+
+        // Bill To
+        heading("Bill To:")
+        text(invoice.customerName)
+        text(invoice.customerAddress)
+        text(invoice.customerEmail)
+
+        spacer(30f)
+
+        // Items Table
+        table {
+            header("Description", "Qty", "Unit Price", "Amount")
+
+            invoice.items.forEach { item ->
+                row(
+                    item.description,
+                    item.quantity.toString(),
+                    "$${item.unitPrice}",
+                    "$${item.quantity * item.unitPrice}"
+                )
+            }
+        }
+
+        spacer(20f)
+
+        // Totals
+        text("Subtotal: $${invoice.subtotal}", align = TextAlign.RIGHT)
+        text("Tax (10%): $${invoice.tax}", align = TextAlign.RIGHT)
+        divider()
+        text("Total: $${invoice.total}", size = 18f, typeface = Typeface.DEFAULT_BOLD, align = TextAlign.RIGHT)
+
+        spacer(40f)
+
+        // Payment QR Code
+        text("Scan to Pay:", align = TextAlign.CENTER)
+        qrCode("https://pay.acme.com/invoice/${invoice.number}", size = 120f)
+
+        spacer(20f)
+
+        // Payment Info Box
+        infoBox(
+            TextElement("Payment Information", typeface = Typeface.DEFAULT_BOLD),
+            TextElement("Bank: First National Bank"),
+            TextElement("Account: 1234567890"),
+            TextElement("Reference: ${invoice.number}")
+        )
+
+    }.saveToFile(outputFile)
+}
+
+// Usage
+data class Invoice(
+    val number: String,
+    val date: String,
+    val dueDate: String,
+    val customerName: String,
+    val customerAddress: String,
+    val customerEmail: String,
+    val items: List&lt;InvoiceItem&gt;,
+    val subtotal: Double,
+    val tax: Double,
+    val total: Double
+)
+
+data class InvoiceItem(
+    val description: String,
+    val quantity: Int,
+    val unitPrice: Double
+)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="report">
+                    <h2>📊 Report</h2>
+                    <p>Generate a business report with sections, charts data, and summaries.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Monthly Report Example</h3>
+                            <p>Structured report with multiple sections and data tables</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateMonthlyReport(context: Context): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "monthly_report.pdf")
+
+    return pdf {
+        pageSize(PageSize.A4)
+        margins(PageMargins.NORMAL)
+
+        // Watermark
+        confidentialWatermark()
+
+        // Header/Footer
+        header(
+            left = "Monthly Sales Report",
+            right = "January 2026"
+        )
+        footer(showPageNumber = true)
+
+        // Title Page
+        spacer(100f)
+        title("Monthly Sales Report", size = 32f, align = TextAlign.CENTER)
+        spacer(20f)
+        text("January 2026", size = 18f, align = TextAlign.CENTER)
+        spacer(40f)
+        text("Prepared by: Sales Department", align = TextAlign.CENTER)
+        text("Date: January 31, 2026", align = TextAlign.CENTER)
+
+        pageBreak()
+
+        // Executive Summary
+        title("Executive Summary")
+        spacer(16f)
+
+        successBox(
+            TextElement("Key Highlights", typeface = Typeface.DEFAULT_BOLD),
+            TextElement("• Total Revenue: $1,234,567 (+15% vs last month)"),
+            TextElement("• New Customers: 234 (+20% vs last month)"),
+            TextElement("• Customer Retention: 95%")
+        )
+
+        spacer(20f)
+
+        text("""
+            This month showed exceptional growth across all key metrics.
+            Our new marketing campaigns drove significant customer acquisition,
+            while our retention programs maintained high loyalty rates.
+        """.trimIndent())
+
+        spacer(30f)
+
+        // Sales by Region
+        heading("Sales by Region")
+        spacer(16f)
+
+        table {
+            header("Region", "Revenue", "Growth", "% of Total")
+            row("North America", "$450,000", "+12%", "36%")
+            row("Europe", "$380,000", "+18%", "31%")
+            row("Asia Pacific", "$280,000", "+22%", "23%")
+            row("Other", "$124,567", "+8%", "10%")
+        }
+
+        spacer(30f)
+
+        // Top Products
+        heading("Top Performing Products")
+        spacer(16f)
+
+        numberedList(
+            "Product A - $320,000 (26% of revenue)",
+            "Product B - $280,000 (23% of revenue)",
+            "Product C - $195,000 (16% of revenue)",
+            "Product D - $150,000 (12% of revenue)",
+            "Other Products - $289,567 (23% of revenue)"
+        )
+
+        pageBreak()
+
+        // Customer Metrics
+        title("Customer Metrics")
+        spacer(16f)
+
+        table {
+            header("Metric", "This Month", "Last Month", "Change")
+            row("New Customers", "234", "195", "+20%")
+            row("Churned Customers", "12", "15", "-20%")
+            row("Net New", "222", "180", "+23%")
+            row("Total Active", "4,567", "4,345", "+5%")
+        }
+
+        spacer(30f)
+
+        // Recommendations
+        heading("Recommendations")
+        spacer(16f)
+
+        warningBox(
+            TextElement("Action Items", typeface = Typeface.DEFAULT_BOLD),
+            TextElement("1. Increase marketing budget for APAC region"),
+            TextElement("2. Launch customer loyalty program Q2"),
+            TextElement("3. Expand Product A distribution channels")
+        )
+
+        spacer(30f)
+
+        // Signature
+        divider()
+        spacer(20f)
+        text("Approved by:", size = 10f)
+        spacer(30f)
+        text("_______________________")
+        text("Sales Director", size = 10f)
+
+    }.saveToFile(outputFile)
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="receipt">
+                    <h2>🧾 Receipt</h2>
+                    <p>Create a compact receipt suitable for printing or digital delivery.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Receipt Example</h3>
+                            <p>Compact receipt with items, totals, and transaction QR code</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateReceipt(context: Context, order: Order): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "receipt_${order.id}.pdf")
+
+    return pdf {
+        // Narrow page for receipt
+        pageSizeMm(80f, 200f)
+        margins(10f, 10f, 10f, 10f)
+
+        // Store Header
+        title("COFFEE SHOP", size = 18f, align = TextAlign.CENTER)
+        text("123 Main Street", size = 9f, align = TextAlign.CENTER)
+        text("Tel: 555-0123", size = 9f, align = TextAlign.CENTER)
+
+        spacer(10f)
+        dashedDivider()
+        spacer(10f)
+
+        // Order Info
+        text("Order #${order.id}", size = 10f)
+        text("Date: ${order.date}", size = 9f)
+        text("Server: ${order.server}", size = 9f)
+
+        spacer(10f)
+        dashedDivider()
+        spacer(10f)
+
+        // Items
+        order.items.forEach { item ->
+            text("${item.quantity}x ${item.name}", size = 10f)
+            text("   $${item.price}", size = 9f, align = TextAlign.RIGHT)
+        }
+
+        spacer(10f)
+        dashedDivider()
+        spacer(10f)
+
+        // Totals
+        text("Subtotal: $${order.subtotal}", size = 10f, align = TextAlign.RIGHT)
+        text("Tax: $${order.tax}", size = 10f, align = TextAlign.RIGHT)
+        spacer(5f)
+        text("TOTAL: $${order.total}", size = 14f, typeface = Typeface.DEFAULT_BOLD, align = TextAlign.RIGHT)
+
+        spacer(10f)
+
+        text("Paid: ${order.paymentMethod}", size = 10f)
+
+        spacer(15f)
+        dashedDivider()
+        spacer(15f)
+
+        // QR Code for digital receipt
+        text("Scan for digital receipt:", size = 8f, align = TextAlign.CENTER)
+        qrCode("https://shop.com/receipt/${order.id}", size = 60f)
+
+        spacer(10f)
+
+        text("Thank you!", size = 12f, align = TextAlign.CENTER)
+        text("Visit again soon!", size = 9f, align = TextAlign.CENTER)
+
+    }.saveToFile(outputFile)
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="certificate">
+                    <h2>🏆 Certificate</h2>
+                    <p>Create an elegant certificate of completion or achievement.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Certificate Example</h3>
+                            <p>Formal certificate with decorative elements</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateCertificate(
+    context: Context,
+    recipientName: String,
+    courseName: String,
+    completionDate: String,
+    certificateId: String
+): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "certificate_$certificateId.pdf")
+
+    return pdf {
+        pageSize(PageSize.A4)
+        orientation(PageOrientation.LANDSCAPE)
+        margins(PageMargins.WIDE)
+        backgroundColor(0xFFFFFDF5.toInt())
+
+        spacer(40f)
+
+        // Header
+        text("CERTIFICATE", size = 14f, align = TextAlign.CENTER, color = 0xFF666666.toInt())
+        spacer(10f)
+        title("OF COMPLETION", size = 36f, align = TextAlign.CENTER)
+
+        spacer(30f)
+
+        text("This is to certify that", size = 14f, align = TextAlign.CENTER)
+
+        spacer(20f)
+
+        // Recipient Name
+        text(recipientName, size = 32f, align = TextAlign.CENTER, typeface = Typeface.create("serif", Typeface.BOLD_ITALIC))
+
+        spacer(10f)
+        divider(color = 0xFFCCCCCC.toInt())
+        spacer(20f)
+
+        text("has successfully completed the course", size = 14f, align = TextAlign.CENTER)
+
+        spacer(20f)
+
+        // Course Name
+        text(courseName, size = 24f, align = TextAlign.CENTER, typeface = Typeface.DEFAULT_BOLD)
+
+        spacer(30f)
+
+        text("Completed on $completionDate", size = 12f, align = TextAlign.CENTER)
+
+        spacer(50f)
+
+        // Signature Area
+        text("_______________________", align = TextAlign.CENTER)
+        text("Program Director", size = 10f, align = TextAlign.CENTER)
+
+        spacer(30f)
+
+        // Verification
+        text("Certificate ID: $certificateId", size = 9f, align = TextAlign.CENTER, color = 0xFF999999.toInt())
+        spacer(10f)
+        qrCode("https://verify.academy.com/cert/$certificateId", size = 80f)
+        text("Scan to verify", size = 8f, align = TextAlign.CENTER, color = 0xFF999999.toInt())
+
+    }.saveToFile(outputFile)
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="checklist">
+                    <h2>☑️ Checklist Form</h2>
+                    <p>Create interactive checklist forms for inspections or tasks.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Inspection Checklist Example</h3>
+                            <p>Safety inspection form with checkboxes</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateInspectionChecklist(context: Context): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "inspection_checklist.pdf")
+
+    return pdf {
+        pageSize(PageSize.A4)
+        margins(PageMargins.NORMAL)
+
+        header(left = "Safety Inspection Checklist", showPageNumber = true)
+
+        title("Workplace Safety Inspection")
+        text("Date: ____________  Inspector: ____________")
+        text("Location: ____________  Department: ____________")
+
+        spacer(20f)
+        divider()
+        spacer(20f)
+
+        // Fire Safety Section
+        heading("🔥 Fire Safety")
+        spacer(10f)
+
+        checkboxList(
+            "Fire extinguishers are accessible and inspected",
+            "Emergency exits are clearly marked",
+            "Exit routes are clear and unobstructed",
+            "Fire alarm system tested and functional",
+            "Sprinkler system operational",
+            "Flammable materials properly stored"
+        )
+
+        spacer(20f)
+
+        // Electrical Safety
+        heading("⚡ Electrical Safety")
+        spacer(10f)
+
+        checkboxList(
+            "No exposed wiring or damaged cords",
+            "Electrical panels accessible",
+            "GFCI outlets in wet areas functional",
+            "No overloaded outlets or power strips",
+            "Equipment properly grounded"
+        )
+
+        spacer(20f)
+
+        // General Safety
+        heading("🛡️ General Safety")
+        spacer(10f)
+
+        checkboxList(
+            "First aid kit stocked and accessible",
+            "Safety signs visible and legible",
+            "Walkways clear of hazards",
+            "Proper lighting in all areas",
+            "PPE available and in good condition",
+            "Emergency contact information posted"
+        )
+
+        spacer(30f)
+
+        // Notes Section
+        heading("📝 Notes & Observations")
+        spacer(10f)
+
+        text("_".repeat(60))
+        spacer(15f)
+        text("_".repeat(60))
+        spacer(15f)
+        text("_".repeat(60))
+        spacer(15f)
+        text("_".repeat(60))
+
+        spacer(30f)
+
+        // Warning Box
+        warningBox(
+            TextElement("⚠️ Important", typeface = Typeface.DEFAULT_BOLD),
+            TextElement("Any critical safety issues must be reported immediately to the Safety Officer.")
+        )
+
+        spacer(30f)
+
+        // Signature
+        divider()
+        spacer(20f)
+
+        text("Inspector Signature: ______________________  Date: ____________")
+        spacer(15f)
+        text("Supervisor Review: ______________________  Date: ____________")
+
+    }.saveToFile(outputFile)
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="contact-card">
+                    <h2>📇 Contact Card</h2>
+                    <p>Generate a contact card with vCard QR code for easy sharing.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Contact Card Example</h3>
+                            <p>Digital business card with QR code</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateContactCard(
+    context: Context,
+    contact: ContactInfo
+): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "contact_${contact.firstName}.pdf")
+
+    return pdf {
+        // Business card size
+        pageSizeMm(85f, 55f)
+        margins(5f, 5f, 5f, 5f)
+
+        // Name
+        text("${contact.firstName} ${contact.lastName}", size = 14f, typeface = Typeface.DEFAULT_BOLD)
+        text(contact.title, size = 10f, color = 0xFF666666.toInt())
+
+        spacer(8f)
+
+        text(contact.company, size = 11f)
+
+        spacer(8f)
+
+        // Contact Details
+        text("📧 ${contact.email}", size = 8f)
+        text("📱 ${contact.phone}", size = 8f)
+        contact.website?.let { text("🌐 $it", size = 8f) }
+
+        spacer(10f)
+
+        // vCard QR Code
+        qrCodeVCard(
+            firstName = contact.firstName,
+            lastName = contact.lastName,
+            phone = contact.phone,
+            email = contact.email,
+            organization = contact.company,
+            size = 50f,
+            align = TextAlign.RIGHT
+        )
+
+    }.saveToFile(outputFile)
+}
+
+data class ContactInfo(
+    val firstName: String,
+    val lastName: String,
+    val title: String,
+    val company: String,
+    val email: String,
+    val phone: String,
+    val website: String? = null
+)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="multi-page">
+                    <h2>📚 Multi-Page Document</h2>
+                    <p>Create documents with automatic pagination and page management.</p>
+
+                    <div class="example-card">
+                        <div class="example-card-header">
+                            <h3>Multi-Page Document Example</h3>
+                            <p>Document with table of contents and multiple sections</p>
+                        </div>
+                        <div class="example-card-body">
+                            <pre><code class="language-kotlin">fun generateUserManual(context: Context): Result&lt;File&gt; {
+    val outputFile = File(context.cacheDir, "user_manual.pdf")
+
+    return pdf {
+        pageSize(PageSize.A4)
+        margins(PageMargins.NORMAL)
+
+        header(
+            left = "User Manual",
+            right = "Version 2.0"
+        )
+        footer(showPageNumber = true, pageNumberFormat = "Page {page} of {total}")
+
+        // Cover Page
+        spacer(150f)
+        title("Product User Manual", size = 36f, align = TextAlign.CENTER)
+        spacer(30f)
+        text("Version 2.0", size = 18f, align = TextAlign.CENTER)
+        text("Last Updated: January 2026", size = 14f, align = TextAlign.CENTER)
+
+        pageBreak()
+
+        // Table of Contents
+        title("Table of Contents")
+        spacer(20f)
+
+        text("1. Introduction .......................... 3")
+        text("2. Getting Started ...................... 4")
+        text("3. Features ............................. 6")
+        text("4. Troubleshooting ..................... 10")
+        text("5. FAQ ................................. 12")
+
+        pageBreak()
+
+        // Chapter 1
+        title("1. Introduction")
+        spacer(16f)
+
+        text("""
+            Welcome to the Product User Manual. This comprehensive guide will help you
+            understand all the features and capabilities of our product.
+
+            Our product is designed to simplify your daily tasks and improve productivity.
+            Whether you're a beginner or an advanced user, this manual will provide you
+            with all the information you need.
+        """.trimIndent())
+
+        spacer(20f)
+
+        infoBox(
+            TextElement("ℹ️ Note", typeface = Typeface.DEFAULT_BOLD),
+            TextElement("Please read this manual carefully before using the product.")
+        )
+
+        spacer(20f)
+
+        heading("1.1 System Requirements")
+        spacer(10f)
+
+        bulletList(
+            "Android 7.0 (API 24) or higher",
+            "2GB RAM minimum",
+            "100MB free storage",
+            "Internet connection for sync features"
+        )
+
+        pageBreak()
+
+        // Chapter 2
+        title("2. Getting Started")
+        spacer(16f)
+
+        heading("2.1 Installation")
+        spacer(10f)
+
+        numberedList(
+            "Download the app from Google Play Store",
+            "Open the app and accept permissions",
+            "Create an account or sign in",
+            "Complete the setup wizard",
+            "Start using the app!"
+        )
+
+        spacer(20f)
+
+        heading("2.2 Initial Configuration")
+        spacer(10f)
+
+        table {
+            header("Setting", "Default", "Recommended")
+            row("Theme", "System", "Your preference")
+            row("Notifications", "Enabled", "Enabled")
+            row("Auto-sync", "Off", "On")
+            row("Language", "English", "Your language")
+        }
+
+        // Continue with more chapters...
+        pageBreak()
+
+        // Chapter 3
+        title("3. Features")
+        spacer(16f)
+
+        text("""
+            This chapter covers all the main features of the product.
+            Each feature is designed to enhance your experience and productivity.
+        """.trimIndent())
+
+        spacer(20f)
+
+        heading("3.1 Core Features")
+        spacer(10f)
+
+        bulletList(
+            "Feature A - Streamline your workflow",
+            "Feature B - Collaborate with team members",
+            "Feature C - Generate reports automatically",
+            "Feature D - Secure data encryption"
+        )
+
+        spacer(20f)
+
+        successBox(
+            TextElement("✅ Pro Tip", typeface = Typeface.DEFAULT_BOLD),
+            TextElement("Use keyboard shortcuts to speed up your work. Press Ctrl+? to see all available shortcuts.")
+        )
+
+    }.saveToFile(outputFile)
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">📄</span>
+                        <span class="logo-text">PDF Generator</span>
+                    </a>
+                    <p>A lightweight Kotlin DSL library for generating multi-page PDF documents on Android.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Documentation</h4>
+                        <ul>
+                            <li><a href="getting-started.html">Getting Started</a></li>
+                            <li><a href="features.html">Features</a></li>
+                            <li><a href="api-reference.html">API Reference</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank">GitHub</a></li>
+                            <li><a href="https://central.sonatype.com/artifact/io.github.alims-repo/pdf-generator" target="_blank">Maven Central</a></li>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator/issues" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0 License</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Alim Sourav. All rights reserved.</p>
+                <p>Made with ❤️ for the Android community</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

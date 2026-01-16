@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF Generator API Reference - Complete documentation of all methods and classes">
+    <title>API Reference - PDF Generator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📄</span>
+                <span class="logo-text">PDF Generator</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="features.html">Features</a>
+                <a href="api-reference.html" class="active">API Reference</a>
+                <a href="examples.html">Examples</a>
+                <a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank" class="github-link">
+                    <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>📖 API Reference</h1>
+            <p>Complete documentation of all classes, methods, and configurations</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="page-content">
+        <div class="page-with-sidebar">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <h3>API Reference</h3>
+                    <ul>
+                        <li><a href="#pdf-dsl">PdfDsl</a></li>
+                        <li><a href="#pdf-builder">PdfBuilder</a></li>
+                        <li><a href="#page-config-classes">Page Configuration</a></li>
+                        <li><a href="#content-elements">Content Elements</a></li>
+                        <li><a href="#table-classes">Table Classes</a></li>
+                        <li><a href="#qr-code-classes">QR Code</a></li>
+                        <li><a href="#output-classes">Output Classes</a></li>
+                        <li><a href="#extension-functions">Extensions</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main>
+                <div class="content-section" id="pdf-dsl">
+                    <h2>PdfDsl</h2>
+                    <p>The main DSL class for building PDFs with a declarative syntax.</p>
+
+                    <h3>Entry Point</h3>
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>pdf { }</h4>
+                            <span class="api-badge">Function</span>
+                        </div>
+                        <p>Creates a new PDF document using the DSL syntax.</p>
+                        <div class="code-block">
+                            <pre><code class="language-kotlin">fun pdf(block: PdfDsl.() -> Unit): PdfBuilder</code></pre>
+                        </div>
+                        <div class="api-params">
+                            <h5>Parameters</h5>
+                            <div class="param-item">
+                                <span class="param-name">block</span>
+                                <span class="param-type">PdfDsl.() -> Unit</span>
+                                <span class="param-desc">DSL block for configuring the PDF</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Page Configuration Methods</h3>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>pageSize(size: PageSize)</h4>
+                        </div>
+                        <p>Set the page size using a predefined size.</p>
+                        <div class="api-params">
+                            <h5>Parameters</h5>
+                            <div class="param-item">
+                                <span class="param-name">size</span>
+                                <span class="param-type">PageSize</span>
+                                <span class="param-desc">A4, A3, A5, A6, LETTER, LEGAL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>pageSizeMm(width: Float, height: Float)</h4>
+                        </div>
+                        <p>Set a custom page size in millimeters.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>orientation(orientation: PageOrientation)</h4>
+                        </div>
+                        <p>Set page orientation (PORTRAIT or LANDSCAPE).</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>margins(margins: PageMargins)</h4>
+                        </div>
+                        <p>Set page margins using a preset.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>margins(top: Float, bottom: Float, left: Float, right: Float)</h4>
+                        </div>
+                        <p>Set custom page margins in points.</p>
+                    </div>
+
+                    <h3>Content Methods</h3>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>title(content: String, size: Float = 24f, align: TextAlign = LEFT)</h4>
+                        </div>
+                        <p>Add a title text element with large, bold styling.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>heading(content: String, size: Float = 18f, align: TextAlign = LEFT)</h4>
+                        </div>
+                        <p>Add a heading text element.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>subheading(content: String, size: Float = 14f, align: TextAlign = LEFT)</h4>
+                        </div>
+                        <p>Add a subheading text element.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>text(content: String, size: Float = 12f, color: Int, typeface: Typeface, align: TextAlign)</h4>
+                        </div>
+                        <p>Add a text paragraph with full customization options.</p>
+                        <div class="api-params">
+                            <h5>Parameters</h5>
+                            <div class="param-item">
+                                <span class="param-name">content</span>
+                                <span class="param-type">String</span>
+                                <span class="param-desc">The text content</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-name">size</span>
+                                <span class="param-type">Float</span>
+                                <span class="param-desc">Font size in points (default: 12f)</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-name">color</span>
+                                <span class="param-type">Int</span>
+                                <span class="param-desc">Text color as ARGB integer (default: black)</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-name">typeface</span>
+                                <span class="param-type">Typeface</span>
+                                <span class="param-desc">Android Typeface (default: Typeface.DEFAULT)</span>
+                            </div>
+                            <div class="param-item">
+                                <span class="param-name">align</span>
+                                <span class="param-type">TextAlign</span>
+                                <span class="param-desc">LEFT, CENTER, or RIGHT (default: LEFT)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>image(bitmap: Bitmap, width: Float?, height: Float?, align: TextAlign)</h4>
+                        </div>
+                        <p>Add an image to the document.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>spacer(height: Float)</h4>
+                        </div>
+                        <p>Add vertical space in points.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>divider(thickness: Float = 1f, color: Int)</h4>
+                        </div>
+                        <p>Add a solid horizontal line.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>dashedDivider(thickness: Float = 1f, color: Int)</h4>
+                        </div>
+                        <p>Add a dashed horizontal line.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>bulletList(vararg items: String)</h4>
+                        </div>
+                        <p>Add a bullet list.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>numberedList(vararg items: String)</h4>
+                        </div>
+                        <p>Add a numbered list.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>pageBreak()</h4>
+                        </div>
+                        <p>Force content to start on a new page.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>table { }</h4>
+                        </div>
+                        <p>Add a table using the table DSL.</p>
+                        <div class="code-block">
+                            <pre><code class="language-kotlin">table {
+    header("Col1", "Col2", "Col3")
+    row("A", "B", "C")
+    row("D", "E", "F")
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" id="pdf-builder">
+                    <h2>PdfBuilder</h2>
+                    <p>The fluent builder class for creating PDFs programmatically.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">PdfBuilder()
+    .setPageSize(PageSize.A4)
+    .setOrientation(PageOrientation.PORTRAIT)
+    .setMargins(PageMargins.NORMAL)
+    .addTitle("Document")
+    .addText("Content...")
+    .buildSync(PdfOutput.ToFile(file))</code></pre>
+                    </div>
+
+                    <h3>Build Methods</h3>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>buildSync(output: PdfOutput): Result&lt;PdfResult&gt;</h4>
+                        </div>
+                        <p>Build the PDF synchronously and return the result.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>build(output: PdfOutput, listener: PdfGenerationListener)</h4>
+                        </div>
+                        <p>Build the PDF asynchronously with a callback listener.</p>
+                    </div>
+                </div>
+
+                <div class="content-section" id="page-config-classes">
+                    <h2>Page Configuration Classes</h2>
+
+                    <h3>PageSize</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">enum class PageSize {
+    A3,      // 297 × 420 mm
+    A4,      // 210 × 297 mm (default)
+    A5,      // 148 × 210 mm
+    A6,      // 105 × 148 mm
+    LETTER,  // 216 × 279 mm (8.5 × 11 in)
+    LEGAL    // 216 × 356 mm (8.5 × 14 in)
+}</code></pre>
+                    </div>
+
+                    <h3>PageOrientation</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">enum class PageOrientation {
+    PORTRAIT,   // Vertical orientation (default)
+    LANDSCAPE   // Horizontal orientation
+}</code></pre>
+                    </div>
+
+                    <h3>PageMargins</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class PageMargins(
+    val top: Float,
+    val bottom: Float,
+    val left: Float,
+    val right: Float
+) {
+    companion object {
+        val NONE = PageMargins(0f, 0f, 0f, 0f)
+        val NARROW = PageMargins(36f, 36f, 36f, 36f)
+        val NORMAL = PageMargins(72f, 72f, 72f, 72f)
+        val WIDE = PageMargins(108f, 108f, 108f, 108f)
+
+        fun uniform(margin: Float): PageMargins
+        fun fromMm(top: Float, bottom: Float, left: Float, right: Float): PageMargins
+    }
+}</code></pre>
+                    </div>
+
+                    <h3>TextAlign</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">enum class TextAlign {
+    LEFT,    // Left-aligned (default)
+    CENTER,  // Centered
+    RIGHT    // Right-aligned
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="content-elements">
+                    <h2>Content Elements</h2>
+
+                    <h3>TextElement</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class TextElement(
+    val content: String,
+    val textSize: Float = 12f,
+    val textColor: Int = 0xFF000000.toInt(),
+    val typeface: Typeface = Typeface.DEFAULT,
+    val alignment: TextAlign = TextAlign.LEFT,
+    val lineSpacing: Float = 1.2f,
+    val spacingAfter: Float = 8f
+) : PdfElement</code></pre>
+                    </div>
+
+                    <h3>ImageElement</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class ImageElement(
+    val bitmap: Bitmap,
+    val width: Float? = null,
+    val height: Float? = null,
+    val alignment: TextAlign = TextAlign.CENTER,
+    val scaleType: ImageScaleType = ImageScaleType.FIT,
+    val spacingAfter: Float = 8f
+) : PdfElement</code></pre>
+                    </div>
+
+                    <h3>BoxElement</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class BoxElement(
+    val elements: List&lt;PdfElement&gt;,
+    val padding: Float = 12f,
+    val backgroundColor: Int? = null,
+    val borderColor: Int? = null,
+    val borderWidth: Float = 1f,
+    val cornerRadius: Float = 4f,
+    val spacingAfter: Float = 12f
+) : PdfElement</code></pre>
+                    </div>
+
+                    <h3>CheckboxItem</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class CheckboxItem(
+    val label: String,
+    val isChecked: Boolean = false
+)</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="table-classes">
+                    <h2>Table Classes</h2>
+
+                    <h3>TableRow</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class TableRow(
+    val cells: List&lt;TableCell&gt;,
+    val isHeader: Boolean = false,
+    val backgroundColor: Int? = null
+)</code></pre>
+                    </div>
+
+                    <h3>TableCell</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class TableCell(
+    val content: String,
+    val textSize: Float = 11f,
+    val textColor: Int = 0xFF000000.toInt(),
+    val backgroundColor: Int? = null,
+    val typeface: Typeface = Typeface.DEFAULT,
+    val alignment: TextAlign = TextAlign.LEFT,
+    val padding: Float = 8f,
+    val colSpan: Int = 1
+)</code></pre>
+                    </div>
+
+                    <h3>TableDsl</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">class TableDsl {
+    fun header(vararg cells: String)
+    fun row(vararg cells: String)
+    fun row(cells: List&lt;TableCell&gt;)
+    fun headerCells(vararg cells: TableCell)
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="qr-code-classes">
+                    <h2>QR Code</h2>
+
+                    <h3>QRCodeElement</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">data class QRCodeElement(
+    val data: String,
+    val size: Float = 150f,
+    val alignment: TextAlign = TextAlign.CENTER,
+    val foregroundColor: Int = 0xFF000000.toInt(),
+    val backgroundColor: Int = 0x00000000,
+    val errorCorrectionLevel: QRErrorCorrectionLevel = QRErrorCorrectionLevel.MEDIUM,
+    val margin: Int = 1,
+    val spacingAfter: Float = 8f
+) : PdfElement</code></pre>
+                    </div>
+
+                    <h3>QRErrorCorrectionLevel</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">enum class QRErrorCorrectionLevel {
+    LOW,      // ~7% error correction
+    MEDIUM,   // ~15% error correction (default)
+    QUARTILE, // ~25% error correction
+    HIGH      // ~30% error correction
+}</code></pre>
+                    </div>
+
+                    <h3>QR Code Factory Methods</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">// In PdfDsl
+fun qrCode(data: String, size: Float = 150f, align: TextAlign = CENTER)
+fun qrCodeUrl(url: String, size: Float = 150f, align: TextAlign = CENTER)
+fun qrCodeEmail(email: String, subject: String? = null, body: String? = null, size: Float = 150f)
+fun qrCodePhone(phone: String, size: Float = 150f)
+fun qrCodeSms(phone: String, message: String? = null, size: Float = 150f)
+fun qrCodeWifi(ssid: String, password: String? = null, size: Float = 150f)
+fun qrCodeVCard(firstName: String, lastName: String?, phone: String?, email: String?, organization: String?, size: Float = 150f)
+fun qrCodeLocation(latitude: Double, longitude: Double, size: Float = 150f)</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="output-classes">
+                    <h2>Output Classes</h2>
+
+                    <h3>PdfOutput</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">sealed class PdfOutput {
+    data class ToFile(val file: File) : PdfOutput()
+    data class ToPath(val directoryPath: String, val fileName: String) : PdfOutput()
+    object ToByteArray : PdfOutput()
+    data class ToOutputStream(val outputStream: OutputStream) : PdfOutput()
+}</code></pre>
+                    </div>
+
+                    <h3>PdfResult</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">sealed class PdfResult {
+    data class FileResult(val file: File, val pageCount: Int) : PdfResult()
+    data class ByteArrayResult(val bytes: ByteArray, val pageCount: Int) : PdfResult()
+    data class StreamResult(val bytesWritten: Long, val pageCount: Int) : PdfResult()
+}</code></pre>
+                    </div>
+
+                    <h3>PdfGenerationListener</h3>
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">interface PdfGenerationListener {
+    fun onProgress(current: Int, total: Int)
+    fun onComplete(result: PdfResult)
+    fun onError(error: PdfError)
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="extension-functions">
+                    <h2>Extension Functions</h2>
+                    <p>Convenient extension functions for saving PDFs:</p>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>PdfBuilder.saveToFile(file: File): Result&lt;File&gt;</h4>
+                        </div>
+                        <p>Save the PDF to a file and return the file.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>PdfBuilder.saveToPath(directoryPath: String, fileName: String): Result&lt;File&gt;</h4>
+                        </div>
+                        <p>Save the PDF to a path and return the file.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>PdfBuilder.toByteArray(): Result&lt;ByteArray&gt;</h4>
+                        </div>
+                        <p>Get the PDF as a byte array.</p>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-card-header">
+                            <h4>PdfBuilder.toOutputStream(outputStream: OutputStream): Result&lt;Long&gt;</h4>
+                        </div>
+                        <p>Write the PDF to an output stream and return bytes written.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">📄</span>
+                        <span class="logo-text">PDF Generator</span>
+                    </a>
+                    <p>A lightweight Kotlin DSL library for generating multi-page PDF documents on Android.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Documentation</h4>
+                        <ul>
+                            <li><a href="getting-started.html">Getting Started</a></li>
+                            <li><a href="features.html">Features</a></li>
+                            <li><a href="api-reference.html">API Reference</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank">GitHub</a></li>
+                            <li><a href="https://central.sonatype.com/artifact/io.github.alims-repo/pdf-generator" target="_blank">Maven Central</a></li>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator/issues" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0 License</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Alim Sourav. All rights reserved.</p>
+                <p>Made with ❤️ for the Android community</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

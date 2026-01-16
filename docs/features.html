@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF Generator Features - Explore all available PDF generation features">
+    <title>Features - PDF Generator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📄</span>
+                <span class="logo-text">PDF Generator</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="features.html" class="active">Features</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="examples.html">Examples</a>
+                <a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank" class="github-link">
+                    <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>✨ Features</h1>
+            <p>Explore all the powerful features available in PDF Generator</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="page-content">
+        <div class="page-with-sidebar">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#page-config">Page Configuration</a></li>
+                        <li><a href="#text-content">Text Content</a></li>
+                        <li><a href="#tables">Tables</a></li>
+                        <li><a href="#lists">Lists</a></li>
+                        <li><a href="#images">Images</a></li>
+                        <li><a href="#qr-codes">QR Codes</a></li>
+                        <li><a href="#checkboxes">Checkboxes</a></li>
+                        <li><a href="#box-elements">Box Elements</a></li>
+                        <li><a href="#headers-footers">Headers & Footers</a></li>
+                        <li><a href="#watermarks">Watermarks</a></li>
+                        <li><a href="#layout">Layout & Spacing</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main>
+                <div class="content-section" id="page-config">
+                    <h2>📐 Page Configuration</h2>
+                    <p>Configure your PDF pages with various sizes, orientations, and margins.</p>
+
+                    <h3>Page Sizes</h3>
+                    <p>PDF Generator supports multiple standard page sizes:</p>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Dimensions (mm)</th>
+                                    <th>Usage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>PageSize.A3</code></td>
+                                    <td>297 × 420</td>
+                                    <td>Large documents, posters</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageSize.A4</code></td>
+                                    <td>210 × 297</td>
+                                    <td>Standard documents (default)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageSize.A5</code></td>
+                                    <td>148 × 210</td>
+                                    <td>Booklets, flyers</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageSize.A6</code></td>
+                                    <td>105 × 148</td>
+                                    <td>Postcards, small notes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageSize.LETTER</code></td>
+                                    <td>216 × 279</td>
+                                    <td>US standard</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageSize.LEGAL</code></td>
+                                    <td>216 × 356</td>
+                                    <td>Legal documents (US)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Standard page size
+    pageSize(PageSize.A4)
+
+    // Custom page size in millimeters
+    pageSizeMm(200f, 300f)
+
+    // Custom page size in inches
+    pageSizeInches(8.5f, 11f)
+
+    // Page orientation
+    orientation(PageOrientation.PORTRAIT)  // or LANDSCAPE
+
+    // Page margins
+    margins(PageMargins.NORMAL)  // Preset
+    margins(72f, 72f, 72f, 72f)  // Custom (top, bottom, left, right)
+    marginsMm(25f, 25f, 20f, 20f)  // In millimeters
+
+    // Background color
+    backgroundColor(0xFFF5F5F5.toInt())
+}</code></pre>
+                    </div>
+
+                    <h3>Margin Presets</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Preset</th>
+                                    <th>Values (points)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>PageMargins.NONE</code></td>
+                                    <td>0 on all sides</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageMargins.NARROW</code></td>
+                                    <td>36 (0.5 inch)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageMargins.NORMAL</code></td>
+                                    <td>72 (1 inch)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PageMargins.WIDE</code></td>
+                                    <td>108 (1.5 inches)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="content-section" id="text-content">
+                    <h2>📝 Text Content</h2>
+                    <p>Add various text elements with full styling control.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Title - large, bold text
+    title("Document Title", size = 24f, align = TextAlign.CENTER)
+
+    // Heading - medium, bold text
+    heading("Section Heading", size = 18f)
+
+    // Subheading - smaller heading
+    subheading("Subsection", size = 14f)
+
+    // Regular text with full customization
+    text(
+        content = "This is a paragraph of text.",
+        size = 12f,
+        color = 0xFF333333.toInt(),
+        typeface = Typeface.DEFAULT,
+        align = TextAlign.LEFT  // LEFT, CENTER, RIGHT
+    )
+
+    // Bold text
+    text("Important text", typeface = Typeface.DEFAULT_BOLD)
+
+    // Italic text
+    text("Emphasized text", typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC))
+}</code></pre>
+                    </div>
+
+                    <h3>Text Alignment</h3>
+                    <ul>
+                        <li><code>TextAlign.LEFT</code> - Left-aligned (default)</li>
+                        <li><code>TextAlign.CENTER</code> - Centered</li>
+                        <li><code>TextAlign.RIGHT</code> - Right-aligned</li>
+                    </ul>
+                </div>
+
+                <div class="content-section" id="tables">
+                    <h2>📊 Tables</h2>
+                    <p>Create tables with headers, styled cells, and automatic page splitting.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Simple table
+    table {
+        header("Name", "Email", "Role")
+        row("John Doe", "john@example.com", "Developer")
+        row("Jane Smith", "jane@example.com", "Designer")
+        row("Bob Wilson", "bob@example.com", "Manager")
+    }
+
+    // Table with styled cells
+    table {
+        headerCells(
+            TableCell("Product", backgroundColor = 0xFF1E40AF.toInt(), textColor = 0xFFFFFFFF.toInt()),
+            TableCell("Price", backgroundColor = 0xFF1E40AF.toInt(), textColor = 0xFFFFFFFF.toInt()),
+            TableCell("Qty", backgroundColor = 0xFF1E40AF.toInt(), textColor = 0xFFFFFFFF.toInt())
+        )
+        row(listOf(
+            TableCell("Widget A"),
+            TableCell("$29.99", alignment = TextAlign.RIGHT),
+            TableCell("10", alignment = TextAlign.CENTER)
+        ))
+    }
+}</code></pre>
+                    </div>
+
+                    <div class="note note-info">
+                        <div class="note-title">📋 Auto Page Splitting</div>
+                        <p>Large tables automatically split across pages, with headers repeating on each page for better readability.</p>
+                    </div>
+                </div>
+
+                <div class="content-section" id="lists">
+                    <h2>📋 Lists</h2>
+                    <p>Add bullet lists and numbered lists that automatically continue across pages.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Bullet list
+    bulletList(
+        "First item",
+        "Second item",
+        "Third item with longer text that will wrap properly",
+        "Fourth item"
+    )
+
+    // Numbered list
+    numberedList(
+        "Step one: Prepare materials",
+        "Step two: Follow instructions",
+        "Step three: Complete the process",
+        "Step four: Review results"
+    )
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="images">
+                    <h2>🖼️ Images</h2>
+                    <p>Add images with flexible sizing and alignment options.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Add image from bitmap
+    val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+
+    // Full width image
+    image(bitmap)
+
+    // Custom size
+    image(bitmap, width = 200f, height = 100f)
+
+    // Maintain aspect ratio with max width
+    image(bitmap, width = 300f)  // Height calculated automatically
+
+    // Centered image
+    image(bitmap, width = 200f, align = TextAlign.CENTER)
+
+    // Right-aligned image
+    image(bitmap, width = 150f, align = TextAlign.RIGHT)
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="qr-codes">
+                    <h2>📱 QR Codes</h2>
+                    <p>Generate various types of QR codes directly in your PDF.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Basic QR code
+    qrCode("https://example.com", size = 150f)
+
+    // URL QR code
+    qrCodeUrl("https://github.com/Alims-Repo/Pdf-Generator")
+
+    // Email QR code
+    qrCodeEmail(
+        email = "contact@example.com",
+        subject = "Hello",
+        body = "I'd like to inquire about..."
+    )
+
+    // Phone QR code
+    qrCodePhone("+1234567890")
+
+    // SMS QR code
+    qrCodeSms(
+        phone = "+1234567890",
+        message = "Hello from PDF Generator!"
+    )
+
+    // WiFi QR code
+    qrCodeWifi(
+        ssid = "MyNetwork",
+        password = "secretpassword"
+    )
+
+    // vCard QR code (Contact)
+    qrCodeVCard(
+        firstName = "John",
+        lastName = "Doe",
+        phone = "+1234567890",
+        email = "john.doe@example.com",
+        organization = "ACME Corp"
+    )
+
+    // Location QR code
+    qrCodeLocation(
+        latitude = 40.7128,
+        longitude = -74.0060
+    )
+}</code></pre>
+                    </div>
+
+                    <h3>QR Code Types</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>qrCode()</code></td>
+                                    <td>Generic QR code with any data</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodeUrl()</code></td>
+                                    <td>Opens a URL when scanned</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodeEmail()</code></td>
+                                    <td>Opens email composer</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodePhone()</code></td>
+                                    <td>Initiates phone call</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodeSms()</code></td>
+                                    <td>Opens SMS with pre-filled message</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodeWifi()</code></td>
+                                    <td>Connects to WiFi network</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodeVCard()</code></td>
+                                    <td>Adds contact to address book</td>
+                                </tr>
+                                <tr>
+                                    <td><code>qrCodeLocation()</code></td>
+                                    <td>Opens location in maps</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="content-section" id="checkboxes">
+                    <h2>☑️ Checkboxes</h2>
+                    <p>Perfect for forms, checklists, and surveys.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    heading("Checklist")
+
+    // Single checkbox
+    checkbox("I agree to the terms", isChecked = false)
+    checkbox("Subscribe to newsletter", isChecked = true)
+
+    // Checkbox list from strings
+    checkboxList(
+        "Task 1: Complete documentation",
+        "Task 2: Write tests",
+        "Task 3: Deploy to production"
+    )
+
+    // Checkbox list with pre-checked items
+    checkboxList(listOf(
+        CheckboxItem("Completed task", isChecked = true),
+        CheckboxItem("Pending task", isChecked = false),
+        CheckboxItem("Another completed task", isChecked = true)
+    ))
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="box-elements">
+                    <h2>📦 Box Elements</h2>
+                    <p>Highlight content with styled boxes for different purposes.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Info box (blue)
+    infoBox(
+        TextElement("ℹ️ Information", textSize = 14f, typeface = Typeface.DEFAULT_BOLD),
+        TextElement("This is an informational message.")
+    )
+
+    // Warning box (yellow/orange)
+    warningBox(
+        TextElement("⚠️ Warning", textSize = 14f, typeface = Typeface.DEFAULT_BOLD),
+        TextElement("Please review carefully before proceeding.")
+    )
+
+    // Error box (red)
+    errorBox(
+        TextElement("❌ Error", textSize = 14f, typeface = Typeface.DEFAULT_BOLD),
+        TextElement("An error occurred during processing.")
+    )
+
+    // Success box (green)
+    successBox(
+        TextElement("✅ Success", textSize = 14f, typeface = Typeface.DEFAULT_BOLD),
+        TextElement("Operation completed successfully!")
+    )
+
+    // Custom box
+    box(
+        elements = listOf(
+            TextElement("Custom Box", textSize = 16f),
+            TextElement("With custom styling")
+        ),
+        padding = 16f,
+        backgroundColor = 0xFFE0E7FF.toInt()
+    )
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="headers-footers">
+                    <h2>🔖 Headers & Footers</h2>
+                    <p>Add customizable headers and footers with automatic page numbering.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Header with page numbers
+    header(
+        left = "Company Name",
+        center = "Document Title",
+        right = null,
+        showPageNumber = true,
+        pageNumberFormat = "Page {page} of {total}"
+    )
+
+    // Footer
+    footer(
+        left = "Confidential",
+        center = null,
+        right = "© 2026 Company",
+        showPageNumber = true
+    )
+
+    // Content...
+    title("Report")
+    text("Document content goes here...")
+}</code></pre>
+                    </div>
+
+                    <h3>Page Number Formats</h3>
+                    <p>Use placeholders in your format string:</p>
+                    <ul>
+                        <li><code>{page}</code> - Current page number</li>
+                        <li><code>{total}</code> - Total number of pages</li>
+                    </ul>
+                </div>
+
+                <div class="content-section" id="watermarks">
+                    <h2>💧 Watermarks</h2>
+                    <p>Add text watermarks with rotation and transparency.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    // Custom text watermark
+    textWatermark(
+        text = "CONFIDENTIAL",
+        textSize = 48f,
+        textColor = 0x33000000,  // Semi-transparent black
+        rotation = -45f
+    )
+
+    // Preset watermarks
+    draftWatermark()        // "DRAFT" watermark
+    confidentialWatermark() // "CONFIDENTIAL" watermark
+
+    // Advanced watermark
+    watermark(Watermark(
+        text = "SAMPLE",
+        textSize = 60f,
+        textColor = 0x20FF0000,  // Semi-transparent red
+        rotation = -30f,
+        position = WatermarkPosition.CENTER
+    ))
+
+    // Content...
+    title("Document")
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section" id="layout">
+                    <h2>📏 Layout & Spacing</h2>
+                    <p>Control spacing and visual separation in your document.</p>
+
+                    <div class="code-block">
+                        <pre><code class="language-kotlin">pdf {
+    title("Section 1")
+    text("Content...")
+
+    // Add vertical space
+    spacer(30f)  // 30 points of space
+
+    // Solid divider line
+    divider(thickness = 1f, color = 0xFF000000.toInt())
+
+    spacer(30f)
+
+    title("Section 2")
+    text("More content...")
+
+    // Dashed divider line
+    dashedDivider(thickness = 1f, color = 0xFF666666.toInt())
+
+    spacer(20f)
+
+    // Force a page break
+    pageBreak()
+
+    title("Section 3 (New Page)")
+}</code></pre>
+                    </div>
+
+                    <h3>Layout Elements</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>spacer(height)</code></td>
+                                    <td>Add vertical space in points</td>
+                                </tr>
+                                <tr>
+                                    <td><code>divider()</code></td>
+                                    <td>Solid horizontal line</td>
+                                </tr>
+                                <tr>
+                                    <td><code>dashedDivider()</code></td>
+                                    <td>Dashed horizontal line</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pageBreak()</code></td>
+                                    <td>Force content to next page</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">📄</span>
+                        <span class="logo-text">PDF Generator</span>
+                    </a>
+                    <p>A lightweight Kotlin DSL library for generating multi-page PDF documents on Android.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Documentation</h4>
+                        <ul>
+                            <li><a href="getting-started.html">Getting Started</a></li>
+                            <li><a href="features.html">Features</a></li>
+                            <li><a href="api-reference.html">API Reference</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank">GitHub</a></li>
+                            <li><a href="https://central.sonatype.com/artifact/io.github.alims-repo/pdf-generator" target="_blank">Maven Central</a></li>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator/issues" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0 License</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Alim Sourav. All rights reserved.</p>
+                <p>Made with ❤️ for the Android community</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

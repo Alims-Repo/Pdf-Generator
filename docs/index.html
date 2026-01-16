@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF Generator - A lightweight Kotlin DSL library for generating multi-page PDF documents on Android">
+    <meta name="keywords" content="Android, Kotlin, PDF, PDF Generator, Library, DSL, Open Source">
+    <meta name="author" content="Alim Sourav">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="PDF Generator for Android">
+    <meta property="og:description" content="A lightweight Kotlin DSL library for generating multi-page PDF documents on Android">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alims-repo.github.io/Pdf-Generator/">
+
+    <title>PDF Generator - Android PDF Library</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📄</span>
+                <span class="logo-text">PDF Generator</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="getting-started.html">Getting Started</a>
+                <a href="features.html">Features</a>
+                <a href="api-reference.html">API Reference</a>
+                <a href="examples.html">Examples</a>
+                <a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank" class="github-link">
+                    <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Version 1.0.5-beta</div>
+                <h1>PDF Generator for Android</h1>
+                <p class="hero-description">
+                    A lightweight, powerful Kotlin DSL library for generating multi-page PDF documents on Android.
+                    Create professional PDFs with text, tables, images, QR codes, and more — all with automatic pagination.
+                </p>
+                <div class="hero-buttons">
+                    <a href="getting-started.html" class="btn btn-primary">
+                        Get Started
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Alims-Repo/Pdf-Generator" class="btn btn-secondary" target="_blank">
+                        <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value">API 24+</span>
+                        <span class="stat-label">Min SDK</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">Kotlin</span>
+                        <span class="stat-label">Language</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">Apache 2.0</span>
+                        <span class="stat-label">License</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-code">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="code-title">MainActivity.kt</span>
+                    </div>
+                    <pre><code class="language-kotlin">pdf {
+    pageSize(PageSize.A4)
+    margins(PageMargins.NORMAL)
+
+    title("My Document")
+    text("Hello, PDF Generator!")
+
+    spacer(16f)
+
+    table {
+        header("Name", "Age", "City")
+        row("John", "28", "New York")
+        row("Jane", "32", "London")
+    }
+
+    qrCode("https://example.com")
+}.saveToFile(outputFile)</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>✨ Powerful Features</h2>
+                <p>Everything you need to generate professional PDF documents on Android</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Rich Text Support</h3>
+                    <p>Titles, headings, paragraphs with custom fonts, colors, sizes, and alignment options.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Tables</h3>
+                    <p>Full-featured tables with headers, cell styling, and automatic page splitting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>QR Codes</h3>
+                    <p>Generate QR codes for URLs, contacts, WiFi, email, phone, SMS, vCard, and location.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>Images</h3>
+                    <p>Add images with flexible sizing, aspect ratio control, and alignment options.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">☑️</div>
+                    <h3>Checkboxes</h3>
+                    <p>Perfect for forms, checklists, surveys, and interactive documents.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Lists</h3>
+                    <p>Bullet lists and numbered lists with automatic continuation across pages.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Box Elements</h3>
+                    <p>Info, warning, error, and success boxes for highlighted content sections.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔖</div>
+                    <h3>Headers & Footers</h3>
+                    <p>Customizable headers and footers with automatic page numbering.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💧</div>
+                    <h3>Watermarks</h3>
+                    <p>Text watermarks with custom rotation, color, and transparency settings.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <h3>Multiple Page Sizes</h3>
+                    <p>A3, A4, A5, A6, Letter, Legal, or define your own custom page sizes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Auto Pagination</h3>
+                    <p>Content automatically flows across multiple pages with intelligent splitting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧩</div>
+                    <h3>Kotlin DSL</h3>
+                    <p>Clean, intuitive Kotlin DSL syntax for building PDFs programmatically.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="installation-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>📦 Quick Installation</h2>
+                <p>Add PDF Generator to your project in seconds</p>
+            </div>
+            <div class="installation-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="kotlin">Kotlin DSL</button>
+                    <button class="tab-btn" data-tab="groovy">Groovy</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="kotlin">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>build.gradle.kts</span>
+                                <button class="copy-btn" data-copy="implementation(&quot;io.github.alims-repo:pdf-generator:1.0.5-beta&quot;)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <pre><code class="language-kotlin">dependencies {
+    implementation("io.github.alims-repo:pdf-generator:1.0.5-beta")
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="groovy">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>build.gradle</span>
+                                <button class="copy-btn" data-copy="implementation 'io.github.alims-repo:pdf-generator:1.0.5-beta'">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <pre><code class="language-groovy">dependencies {
+    implementation 'io.github.alims-repo:pdf-generator:1.0.5-beta'
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Example -->
+    <section class="example-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>🚀 Quick Example</h2>
+                <p>Generate your first PDF in minutes</p>
+            </div>
+            <div class="example-content">
+                <div class="code-block large">
+                    <div class="code-header">
+                        <span>Create a PDF with DSL</span>
+                    </div>
+                    <pre><code class="language-kotlin">import io.github.alimsrepo.pdf.generator.pdf
+import io.github.alimsrepo.pdf.generator.saveToFile
+
+// Create a PDF file
+val pdfFile = File(context.cacheDir, "invoice.pdf")
+
+pdf {
+    // Page Configuration
+    pageSize(PageSize.A4)
+    orientation(PageOrientation.PORTRAIT)
+    margins(PageMargins.NORMAL)
+
+    // Header & Footer
+    header(center = "INVOICE", showPageNumber = true)
+    footer(center = "Company Name • contact@company.com")
+
+    // Watermark
+    textWatermark("PAID", rotation = -45f)
+
+    // Content
+    title("Invoice #INV-2024-001")
+
+    spacer(20f)
+
+    text("Bill To:", size = 14f, typeface = Typeface.DEFAULT_BOLD)
+    text("John Doe")
+    text("123 Main Street")
+    text("New York, NY 10001")
+
+    spacer(20f)
+    divider()
+    spacer(20f)
+
+    // Invoice Items Table
+    table {
+        header("Item", "Qty", "Price", "Total")
+        row("Product A", "2", "$50.00", "$100.00")
+        row("Product B", "1", "$75.00", "$75.00")
+        row("Product C", "3", "$25.00", "$75.00")
+    }
+
+    spacer(20f)
+
+    text("Total: $250.00", size = 18f, align = TextAlign.RIGHT)
+
+    spacer(30f)
+
+    // QR Code for payment
+    text("Scan to Pay:", align = TextAlign.CENTER)
+    qrCode("https://pay.example.com/inv-2024-001", size = 150f)
+
+}.saveToFile(pdfFile)
+
+// Share or open the PDF
+pdfFile.let { file ->
+    // Use FileProvider to share
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Output Types -->
+    <section class="output-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>📤 Flexible Output Options</h2>
+                <p>Save your PDF wherever you need it</p>
+            </div>
+            <div class="output-grid">
+                <div class="output-card">
+                    <h3>📁 To File</h3>
+                    <pre><code class="language-kotlin">pdf { ... }.saveToFile(file)</code></pre>
+                </div>
+                <div class="output-card">
+                    <h3>📂 To Path</h3>
+                    <pre><code class="language-kotlin">pdf { ... }.saveToPath(dir, "doc.pdf")</code></pre>
+                </div>
+                <div class="output-card">
+                    <h3>📊 To ByteArray</h3>
+                    <pre><code class="language-kotlin">pdf { ... }.toByteArray()</code></pre>
+                </div>
+                <div class="output-card">
+                    <h3>🌊 To OutputStream</h3>
+                    <pre><code class="language-kotlin">pdf { ... }.toOutputStream(stream)</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Generate PDFs?</h2>
+                <p>Start building beautiful PDF documents with PDF Generator today.</p>
+                <div class="cta-buttons">
+                    <a href="getting-started.html" class="btn btn-primary btn-large">
+                        Get Started
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="examples.html" class="btn btn-outline btn-large">View Examples</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">📄</span>
+                        <span class="logo-text">PDF Generator</span>
+                    </a>
+                    <p>A lightweight Kotlin DSL library for generating multi-page PDF documents on Android.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Documentation</h4>
+                        <ul>
+                            <li><a href="getting-started.html">Getting Started</a></li>
+                            <li><a href="features.html">Features</a></li>
+                            <li><a href="api-reference.html">API Reference</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator" target="_blank">GitHub</a></li>
+                            <li><a href="https://central.sonatype.com/artifact/io.github.alims-repo/pdf-generator" target="_blank">Maven Central</a></li>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator/issues" target="_blank">Issues</a></li>
+                            <li><a href="https://github.com/Alims-Repo/Pdf-Generator/releases" target="_blank">Releases</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0 License</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Alim Sourav. All rights reserved.</p>
+                <p>Made with ❤️ for the Android community</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-groovy.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

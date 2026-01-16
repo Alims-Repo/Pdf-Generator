@@ -1,0 +1,38 @@
+# PDF Generator Documentation Site
+
+title: PDF Generator
+description: A lightweight Kotlin DSL library for generating multi-page PDF documents on Android
+url: "https://alims-repo.github.io"
+baseurl: "/Pdf-Generator"
+
+# Theme
+remote_theme: pages-themes/minimal@v0.2.0
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "default"
+
+# Social
+github_username: Alims-Repo
+
