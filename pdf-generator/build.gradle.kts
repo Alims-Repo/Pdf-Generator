@@ -54,7 +54,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.alims-repo",
         artifactId = "pdf-generator",
-        version = "1.0.5-beta"
+        version = "1.0.6-beta"
     )
 
     pom {

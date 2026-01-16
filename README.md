@@ -32,7 +32,7 @@ Add the dependency to your module's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("io.github.alims-repo:pdf-generator:1.0.5-beta")
+    implementation("io.github.alims-repo:pdf-generator:1.0.6-beta")
 }
 ```
 
@@ -40,7 +40,7 @@ Or for Groovy `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'io.github.alims-repo:pdf-generator:1.0.5-beta'
+    implementation 'io.github.alims-repo:pdf-generator:1.0.6-beta'
 }
 ```
 
